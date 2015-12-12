@@ -1,0 +1,159 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<title>untitled</title>
+	<meta name="generator" content="TextMate http://macromates.com/">
+	<meta name="author" content="Andy Mocahey">
+	<!-- Date: 2014-11-11 -->      
+<style>
+        body{background:#aaff22;padding:6px;border:13px solid #ff00aa}      
+        canvas{border:6px groove #bbbbbb;background:black}     
+        table{border:black solid 3px;margin-left:16%;margin-right:34%}   
+        input{width:64px;height:12px;}     
+        #overlay{
+          pointer-events:none;
+        }
+</style>           
+
+</head>
+<body>    
+         <canvas id="overlay" height="300" width="600" style="background:rgba(45,45,45,.8); position:absolute;width:90%;height:100%"></canvas>
+<canvas id="cannyCanCan" height="300" width="600"> </canvas>
+<table>
+   <tr>
+      <th>X</th>  
+      <td>
+         <input onchange="go()" type="range" min="1" max="10" id="inputX" value="2">  
+      </td>      
+      <td>
+         <input onchange="go()" type="range" min="1" max="5" id="inputY" value="2">  
+      </td>  
+      <th>Y</th>   
+       
+   </tr> 
+   <tr>
+         
+   </tr>
+</table>
+
+      
+                                     
+</body>    
+<script> 
+var ctx = overlay.getContext('2d'),size=60,height = cannyCanCan.height/size,width = cannyCanCan.width/size;   
+var context = overlay.getContext('2d'); 
+                   
+                  ctx.font = "22px Helvetica"      
+                  ctx.fillStyle="orange"    
+                  
+                   context.fillRect(0,0,width,height)
+                   context.fill()
+function line(x,y,eX,eY){
+                         ctx.beginPath()
+                         ctx.moveTo(x*size,y*size)
+                         ctx.lineTo(eX*size,eY*size)             
+                         ctx.stroke()   
+                         
+}           
+function ellipse(x,y,eX,eY){         
+  var x = x * size,
+   y = y*size, 
+   eX = eX*size,
+   eY = eY * size;
+                         ctx.beginPath()
+                         ctx.moveTo(x+size/2,y-size/2)
+                         ctx.bezierCurveTo(x+(size/2),
+                                          y-(size/2)-60,
+                                          eX-(size/2),
+                                          eY-(size/2)-40,
+                                          eX-size/2,
+                                          eY+size/2)  
+                       /*
+                         ctx.lineTo((eX-size/4),eY+size/2)                               
+                                                ctx.bezierCurveTo(eX-(size/4),
+                                                                 eY-(size/2)-40,
+                                                                 x+size-size/4,
+                                                                 y-(size/2)-60,
+                                                                 (x+size)-size/4,
+                                                                 y-size/2) */
+                       
+                         ctx.stroke()  
+                        // ctx.fill() 
+                         
+}      
+                  
+function texts(coordinate,x,y){
+  
+  ctx.fillText(coordinate,(x-1)*size+6,(y-1)*size+22)            
+
+}                  
+
+function go(x,y){ 
+         
+   var  iX = x || inputX.value*1,
+        iY = y || inputY.value*1,
+        difference =  iX > iY ? Math.floor(iX/iY) : Math.floor(iY/iX);      
+        
+  // console.log(iX,iY)     
+   ctx.clearRect(0,0,1600,1300)      
+   ctx.lineWidth = 5;  
+   ctx.strokeStyle="red"
+   
+   line(0,iY,iX,0)          
+   ctx.strokeStyle="yellow"    
+   ellipse(0,iY,iX,0)    
+     
+   
+   texts(iX+","+iY,iX,iY)   
+   texts(difference,1,1)
+   ctx.lineWidth = 1;     
+   ctx.strokeStyle="white" 
+   grid(iX,iY)    
+}
+      
+
+
+function grid(x,y){                        
+ // var h = Math.floor(height/y),
+ // w = Math.floor(width/x);    
+ var x = x,y = y;         
+                              
+  
+ for(var i = 0;i < y+1;i+=1)   { 
+   line(0,i,x,i)   
+   for(var j = 0;j < x+1;j+=1)      {
+     line(j,0,j,y)    
+       console.log(x,y )
+   } 
+ }
+}                         
+
+function rows(difference,row,collumn){  
+  var differenceInt = difference + 1;
+
+  while(differenceInt)    {
+    collumn+differenceInt,row
+    differenceInt--         
+  }
+  collumn += difference + 1;  
+  return collumn;
+  }             
+
+  function collumns(Y){
+   var row = Y, collumn = 0;
+    while(row){
+     collumn = rows(difference,row,collumn)
+     row--
+   }
+  }
+
+
+  
+  
+  
+
+  </script>
+  </html>

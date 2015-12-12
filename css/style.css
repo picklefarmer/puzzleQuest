@@ -1,0 +1,9 @@
+/* Put your CSS here */
+.ember-application {
+	text-align:justify;
+	background:#ccc;
+}
+.active{
+	font-weight:bold;
+}
+ #sortable li { margin: 0px 0px 0px 0; padding: 1px;float: left;  }

@@ -1,0 +1,24 @@
+Tue 2014-11-25 5:42:00pm 
+
+part goes to unit
+	pathfinding to unit
+part goes away from unit
+	pathfinding away unit
+unit goes to point
+	pathfinding to point
+
+generate map 
+		6x6
+		
+	put player on screen
+		NEW
+	make player avaiable for click path navigation
+		add mouseGetPos
+	add puzzGen function
+		add puzzGen difficulty
+	add mob modes
+		add catch ( away ) 
+		add try		( towards )
+	add return screen
+
+generate 6x6 map

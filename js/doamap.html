@@ -1,0 +1,105 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN"
+   "http://www.w3.org/TR/html4/strict.dtd">
+
+<html lang="en">
+<head>
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<script src="output.js"></script>
+	<script src="layer.js"></script>
+	<script src="worldmap.js"></script>
+	<!-- Date: 2014-11-11 -->      
+<style>
+        body{background:#aaff22;padding:6px;border:13px solid #ff00aa;image-rendering:pixelated}      
+		canvas{border:6px groove #bbbbbb;background:black;}
+        table{border:black solid 3px;margin-left:16%;margin-right:34%}   
+        input{width:64px;height:12px;}     
+				
+		#overlay{
+          pointer-events:none;
+        }
+</style>           
+</head>
+<body>    
+         <canvas id="overlay" style="background:rgba(45,45,45,.8); position:absolute;"></canvas>
+<table>
+   <tr>
+      <th>X</th>  
+      <td>
+         <input onchange="go()" type="range" min="1" max="10" id="inputX" value="2">  
+      </td>      
+      <td>
+      </td>  
+	 <th>Y</th>   
+       
+   </tr> 
+   <tr>
+         
+   </tr>
+</table>
+
+      
+                                     
+</body>    
+<script> 
+var context = overlay.getContext('2d'); 
+                   
+                  
+var numberoftiles = 20,numberofland = 6,squeeze = 16;
+overlay.height = overlay.width =  numberoftiles*numberofland*squeeze;
+
+				var map = new Image();
+				map.src =  '../art/buildings/final.jpg'
+                  
+var level = levels,
+	layer = layerlevels,
+	world = worlds, 
+	worlddepth = 6;
+//for(var inty =0;inty<284;inty++){level.push(inty)}
+context.fillStyle="black";
+context.imageSmoothingEnabled = false
+context.font = "8px Helvetica";
+
+function draw(a,x,y){          
+	var offsetX = x*squeeze*numberoftiles,
+		offsetY = y*squeeze*numberoftiles;
+	
+	if(!(a===null))			   
+	level[a].forEach(function(e,f){
+			var x = ((f%20))*squeeze+offsetX,
+				y = (Math.floor(f/20)*squeeze)+offsetY,
+				e = e > 360 ? e.toString()[3]: e;
+
+
+		context.globalAlpha=1
+		context.fillStyle = "white";
+		if(layer[a]){
+		if(layer[a][f] === 0 ){
+		//	context.fillRect(x,y,16,16)
+			}else{
+		context.fillStyle ="black"
+	//		context.fillRect(x,y,16,16)	
+			}
+		} 
+		context.globalAlpha=.2125
+		//context.fillStyle = "hsl("+ e + ",100%,50%)";
+
+	//context.fillRect(x,y,16,16)
+//		context.fillText(e,x,y+squeeze/2); 
+		
+		context.globalAlpha=1    
+	try{
+		context.drawImage(map,(((e-1)%18))*16,Math.floor((e)/18)*16,16,16,x,y,squeeze,squeeze)    
+  }catch(e){
+    
+  }
+	})
+}
+
+map.onload = function(){
+for(var x =  0;x<worlddepth;x++)
+	for(var y =  0;y<worlddepth;y++)
+		draw(world[y][x],x,y)  
+}
+
+  </script>
+  </html>
